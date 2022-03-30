@@ -1,12 +1,15 @@
 import { Component } from "react";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 class LoginForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let email = { email: e.target.email.value }
-    this.props.loginHandler(email)
+    let user = { email: e.target.formBasicEmail.value, 
+    username: e.target.formBasicUsername.value }
+    console.log(user);
+    this.props.loginHandler(user)
   }
 
   render() {
@@ -14,12 +17,18 @@ class LoginForm extends Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicUsername">
+          <Form.Label>username</Form.Label>
+          <Form.Control type="username" placeholder="Enter username" />
+        </Form.Group>
+        <Button type="submit">Submit</Button>
       </Form>
 
     );
