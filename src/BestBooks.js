@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import {Carousel, Button} from 'react-bootstrap';
 import Newbook from './Newbook.js';
 
 let SERVER = process.env.REACT_APP_SERVER;
@@ -39,6 +39,27 @@ class BestBooks extends React.Component {
       console.log('we have an error: ', error.response.data)
     }
   }
+
+  deleteBook = async (id) => {
+    try {
+      console.log(id);
+      // maybe validation something?
+      const config = {
+        method: 'delete',
+        baseURL: SERVER,
+        url: `/books/${id}`,
+      }
+     await axios(config);
+      // let url = `${SERVER}/books/${id}`;
+      // await axios.delete(url);
+      let updatedBooks = this.state.books.filter(book => book._id !== id);
+      this.setState({
+        books: updatedBooks
+      });
+    } catch(error){
+      console.log('we have an error: ', error.response.data)
+    }
+  }
  
 
   componentDidMount = async () => {
@@ -67,6 +88,7 @@ class BestBooks extends React.Component {
                 <Carousel.Caption>
                   <h1>Title: {book.title}</h1>
                   <p>Description: {book.description}</p>
+                <Button onClick={() => this.deleteBook(book._id)}>Delete</Button>
                 </Carousel.Caption>
               </Carousel.Item>
             )}
@@ -75,7 +97,7 @@ class BestBooks extends React.Component {
           <h3>No Books Found :(</h3>
         )}
 
-        <Newbook postBook={this.postBook} />
+        <Newbook postBook={this.postBook}/>
       </>
     )
   }
