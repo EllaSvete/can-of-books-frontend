@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
+import Newbook from './Newbook.js';
 
 let SERVER = process.env.REACT_APP_SERVER;
 
@@ -17,12 +18,28 @@ class BestBooks extends React.Component {
       let results = await axios.get(`${SERVER}/books`);
       this.setState({
         books: results.data
+        
       })
+      
     } catch (error) {
       console.log('we have an error:')
       
     }
   }
+
+  postBook = async (newBook) => {
+    try {
+      let url = `${SERVER}/books`;
+      let createdBook = await axios.post(url, newBook);
+      console.log(createdBook.data);
+      this.setState({
+        books: [...this.state.books, createdBook.data]
+      })
+    } catch(error){
+      console.log('we have an error: ', error.response.data)
+    }
+  }
+ 
 
   componentDidMount = async () => {
     
@@ -40,8 +57,8 @@ class BestBooks extends React.Component {
 
         {this.state.books.length > 0 ? (
           <Carousel variant="dark">
-            {this.state.books.map(book =>
-              <Carousel.Item>
+            {this.state.books.map((book, index) =>
+              <Carousel.Item key={index}>
                 <img
                   className="d-block w-100"
                   src="https://place-hold.it/300x500"
@@ -57,6 +74,8 @@ class BestBooks extends React.Component {
         ) : (
           <h3>No Books Found :(</h3>
         )}
+
+        <Newbook postBook={this.postBook} />
       </>
     )
   }

@@ -4,12 +4,17 @@ import Footer from './Footer';
 import BestBooks from './BestBooks';
 import Login from './Login';
 import Profile from './Profile';
+
+
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
+
 
 class App extends React.Component {
 
@@ -35,6 +40,8 @@ class App extends React.Component {
     })
   }
 
+  
+
   render() {
     return (
       <>
@@ -52,10 +59,10 @@ class App extends React.Component {
 
             </Profile>
             </Route>
-            <Route exact path="/test">
-              <p>this is a test</p>
-            </Route>
+            
+         
             {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
+        
           </Switch>
           <Footer />
         </Router>
