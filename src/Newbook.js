@@ -1,10 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import { Button, Container, Form } from 'react-bootstrap';
 import Books from './BestBooks';
 // import Modal from '.react-bootstrap';
-
-let SERVER = process.env.REACT_APP_SERVER;
 
 class NewBook extends React.Component {
 
