@@ -60,6 +60,21 @@ class BestBooks extends React.Component {
       console.log('we have an error: ', error.response.data)
     }
   }
+
+  // updateBook = async (bookToUpdate) => {
+  //   try {
+  //     let url = `${SERVER}/books/${bookToUpdate._id}`;
+  //     let updatedBook = await axios.put(url, bookToUpdate);
+  //     let updatedBookData = this.state.books.map(existingBook => {
+  //       return existingBook._id === bookToUpdate._id
+  //         ? updatedBook.data
+  //         : existingBook;
+  //     });
+  //     this.setState({books: updatedBookData});
+  //   } catch(error) {
+  //     console.log('error');
+  //   }
+  // }
  
 
   componentDidMount = async () => {
@@ -67,10 +82,15 @@ class BestBooks extends React.Component {
     this.getBooks();
   }
   /* TODO: Make a GET request to your API to fetch books for the logged in user  */
+  handleUpdate = (book) => {
+    this.props.updateBook(book);
+    this.props.handleShow();
+  };
 
   render() {
 
     /* TODO: render user's books in a Carousel */
+
 
     return (
       <>
@@ -89,6 +109,7 @@ class BestBooks extends React.Component {
                   <h1>Title: {book.title}</h1>
                   <p>Description: {book.description}</p>
                 <Button onClick={() => this.deleteBook(book._id)}>Delete</Button>
+                <Button onClick={() => this.handleUpdate(book)}>Update</Button>
                 </Carousel.Caption>
               </Carousel.Item>
             )}
@@ -97,7 +118,8 @@ class BestBooks extends React.Component {
           <h3>No Books Found :(</h3>
         )}
 
-        <Newbook postBook={this.postBook}/>
+        <Newbook 
+        postBook={this.postBook}/>
       </>
     )
   }
