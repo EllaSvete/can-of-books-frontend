@@ -13,21 +13,6 @@ class NewBook extends React.Component {
   }
 
 
-
-  // deleteBook = async (id) => {
-  //   try {
-  //     // maybe validation something?
-  //     let url = `${SERVER}/books/${id}`;
-  //     await axios.delete(url);
-  //     let updatedBooks = this.state.books.filter(book => book._id !== id);
-  //     this.setState({
-  //       cats: updatedBooks
-  //     });
-  //   } catch(error){
-  //     console.log('we have an error: ', error.response.data)
-  //   }
-  // }
-
   handleBookSubmit = (e) => {
     e.preventDefault();
     let statusValue = false;
@@ -46,6 +31,8 @@ class NewBook extends React.Component {
     console.log(newBook);
     this.props.postBook(newBook);
   }
+
+
   // componentDidMount() {
   //   this.getBooks();
   // }
