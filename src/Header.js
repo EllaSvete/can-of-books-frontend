@@ -9,8 +9,17 @@ class Header extends React.Component {
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>My Favorite Books</Navbar.Brand>
-        <NavItem><Link to="/" className="nav-link">Home</Link></NavItem>
-        <NavItem><Link to="/profile" className="nav-link">Profile</Link></NavItem>
+        <NavItem>
+          <Link to="/" className="nav-link">Home</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/profile" className="nav-link">Profile</Link>
+        </NavItem>
+        {this.props.renderLogoutUrl &&
+           <NavItem>
+            <a href={this.props.logoutUrl} className="nav-link">Logout</a>
+           </NavItem>
+        }
         {this.props.user ? <NavItem><LogoutButton/></NavItem> : " "}
         {/* TODO: if the user is logged in, render a navigation link to profile page */}
         {/* TODO: if the user is logged in, render the `LogoutButton` */}

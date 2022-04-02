@@ -41,22 +41,16 @@ class App extends React.Component {
     })
   }
 
-  
-  
-
   render() {
-    // console.log(this.state);
+    const logoutUrl = this.props.auth0.buildLogoutUrl({returnTo: window.location.href});
     return (
       <>
         <Router>
-          <Header user={this.state.user} onLogout={this.logoutHandler} />
+          <Header user={this.state.user} renderLogoutUrl={this.props.auth0.isAuthenticated} logoutUrl={logoutUrl} />
           <Switch>
             <Route exact path="/">
             {this.props.auth0.isAuthenticated ? <BestBooks updateBook={this.updateBook} bookToUpdate={this.state.bookToUpdate} handleShow={this.handleShow} user={this.state.user} /> : 
               <Login loginHandler={this.loginHandler}></Login> }
-
-
-              {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
             </Route>
             <Route exact path="/profile">
 
@@ -64,10 +58,6 @@ class App extends React.Component {
 
             </Profile>
             </Route>
-            
-         
-            {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
-        
           </Switch>
           <Footer />
           
