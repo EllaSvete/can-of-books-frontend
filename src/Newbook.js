@@ -15,21 +15,18 @@ class NewBook extends React.Component {
 
   handleBookSubmit = (e) => {
     e.preventDefault();
-    let statusValue = false;
-    if(e.target.status.value === 'on'){
-       statusValue = true;
-
-    }else {
-       statusValue = false;
-    }
     let newBook = {
       title: e.target.title.value,
       description: e.target.description.value,
-      status: statusValue,
+      status: e.target.status.checked,
       email: e.target.email.value
     }
     console.log(newBook);
     this.props.postBook(newBook);
+    e.target.title.value = '';
+    e.target.description.value = '';
+    e.target.status.checked = false;
+    e.target.email.value = '';
   }
 
 
