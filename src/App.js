@@ -6,6 +6,7 @@ import Login from './Login';
 import Profile from './Profile';
 import UpdateBookForm from './UpdateBookForm';
 import {Modal, Button} from 'react-bootstrap';
+import { withAuth0 } from "@auth0/auth0-react";
 
 
 
@@ -65,8 +66,10 @@ class App extends React.Component {
           <Header user={this.state.user} onLogout={this.logoutHandler} />
           <Switch>
             <Route exact path="/">
-              {this.state.user ? <BestBooks updateBook={this.updateBook} bookToUpdate={this.state.bookToUpdate} handleShow={this.handleShow} user={this.state.user}/> : 
+            {this.props.auth0.isAuthenticated ? <BestBooks updateBook={this.updateBook} bookToUpdate={this.state.bookToUpdate} handleShow={this.handleShow} user={this.state.user} /> : 
               <Login loginHandler={this.loginHandler}></Login> }
+
+
               {/* TODO: if the user is logged in, render the `BestBooks` component, if they are not, render the `Login` component */}
             </Route>
             <Route exact path="/profile">
@@ -103,5 +106,5 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withAuth0(App);
 

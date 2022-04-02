@@ -1,26 +1,36 @@
-import { Component } from "react";
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
-class Profile extends Component {
-componentDidMount() {
-  console.log(this.props);
-}
-  render() {
-    /* TODO: render information about logged in user */
-    /* STRETCH TODO: if no logged in user then redirect home */
-    if (this.props.user) {
-      return (
-        <>
-        <p>email: {this.props.user.email}</p>
-        <p>username: {this.props.user.username}</p>
-        </>
-      )
 
-    } else {
-      return (
-        <p>No user found</p>
-      )
-    }
+
+const Profile = () => {
+  //  componentDidMount() {
+  //   console.log(this.props);
+  // }
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  console.log(user);
+
+
+  /* TODO: render information about logged in user */
+  /* STRETCH TODO: if no logged in user then redirect home */
+
+  if (isLoading) {
+   return <p>Loading User</p>
   }
+  
+  return (
+    isAuthenticated && (
+      <>
+        <p>email: {user.email}</p>
+        <p>username: {user.username}</p>
+      </>
+
+    ))
+
+
+
+
+
 };
 
 export default Profile;
