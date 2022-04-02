@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 
 let SERVER = process.env.REACT_APP_SERVER;
 
@@ -36,29 +36,46 @@ class UpdateBookForm extends React.Component {
     
     }
 
-    this.doUpdateBook(bookToUpdate);
+    this.props.handleUpdate(bookToUpdate);
   }
+
+  updateTitle = (e) => {
+    this.props.titleUpdated(e.target.value);
+  };
+
+  updateDescription = (e) => {
+    this.props.descriptionUpdated(e.target.value);
+  };
+  updateEmail = (e) => {
+    this.props.emailUpdated(e.target.value);
+  };
+
+  updateStatus = (e) => {
+    this.props.statusUpdated(e.target.checked);
+  };
+
+
     render () {
       return (
         <>
         <Container className="mt-5">
-            <Form onSubmit={this.handleSubmit}>
+            <Form>
               <Form.Group controlId="title">
                 <Form.Label>title</Form.Label>
-                <Form.Control type="text" defaultValue={this.props.bookToUpdate.title}/>
+                <Form.Control type="text" defaultValue={this.props.bookToUpdate.title} onChange={this.updateTitle}/>
               </Form.Group>
               <Form.Group controlId="description">
                 <Form.Label>Description</Form.Label>
-                <Form.Control type="text" defaultValue={this.props.bookToUpdate.description} />
+                <Form.Control type="text" defaultValue={this.props.bookToUpdate.description} onChange={this.updateDescription} />
               </Form.Group>
               <Form.Group controlId="email">
                 <Form.Label>Email </Form.Label>
-                <Form.Control type="text" defaultValue={this.props.bookToUpdate.email} />
+                <Form.Control type="text" defaultValue={this.props.bookToUpdate.email}
+                onChange={this.updateEmail} />
               </Form.Group>
               <Form.Group controlId="status">
-                <Form.Check type="checkbox" label="read" />
+                <Form.Check type="checkbox" label="read" checked={this.props.bookToUpdate.status} onChange={this.updateStatus} />
               </Form.Group>
-              <Button  type="submit">Update Book</Button>
             </Form>
           </Container>
         </>

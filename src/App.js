@@ -4,14 +4,7 @@ import Footer from './Footer';
 import BestBooks from './BestBooks';
 import Login from './Login';
 import Profile from './Profile';
-import UpdateBookForm from './UpdateBookForm';
-import {Modal, Button} from 'react-bootstrap';
 import { withAuth0 } from "@auth0/auth0-react";
-
-
-
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {
@@ -28,14 +21,11 @@ class App extends React.Component {
     this.state = {
       user: null,
       userEmail: null,
-      show: false,
-      bookToUpdate: {}
+      show: false
     }
   }
 
-   handleClose = () => this.setState({ show: false })
-
-   handleShow = () => this.setState({ show: true })
+   
 
   loginHandler = (user) => {
     console.log(user);
@@ -51,11 +41,7 @@ class App extends React.Component {
     })
   }
 
-  updateBook = (book) => {
-    this.setState ({
-      bookToUpdate: book
-    })
-  }
+  
   
 
   render() {
@@ -84,22 +70,7 @@ class App extends React.Component {
         
           </Switch>
           <Footer />
-          <Modal show={this.state.show} onHide={this.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Book</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <UpdateBookForm bookToUpdate={this.state.bookToUpdate}/>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={this.handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={this.handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+          
         </Router>
       </>
     )

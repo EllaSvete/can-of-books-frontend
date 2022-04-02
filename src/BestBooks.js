@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React from 'react';
-import {Carousel, Button} from 'react-bootstrap';
+import {Carousel, Button, Modal} from 'react-bootstrap';
 import Newbook from './Newbook.js';
+import UpdateBookForm from './UpdateBookForm';
 
 let SERVER = process.env.REACT_APP_SERVER;
 
@@ -13,9 +14,12 @@ class BestBooks extends React.Component {
     }
   }
 
+  handleClose = () => this.setState({ show: false })
+
   getBooks = async () => {
     try {
       let results = await axios.get(`${SERVER}/books`);
+      console.log(results.data);
       this.setState({
         books: results.data
         
@@ -50,42 +54,66 @@ class BestBooks extends React.Component {
         url: `/books/${id}`,
       }
      await axios(config);
-      // let url = `${SERVER}/books/${id}`;
-      // await axios.delete(url);
-      let updatedBooks = this.state.books.filter(book => book._id !== id);
-      this.setState({
-        books: updatedBooks
-      });
+     this.getBooks();
     } catch(error){
       console.log('we have an error: ', error.response.data)
     }
   }
 
-  // updateBook = async (bookToUpdate) => {
-  //   try {
-  //     let url = `${SERVER}/books/${bookToUpdate._id}`;
-  //     let updatedBook = await axios.put(url, bookToUpdate);
-  //     let updatedBookData = this.state.books.map(existingBook => {
-  //       return existingBook._id === bookToUpdate._id
-  //         ? updatedBook.data
-  //         : existingBook;
-  //     });
-  //     this.setState({books: updatedBookData});
-  //   } catch(error) {
-  //     console.log('error');
-  //   }
-  // }
+  updateBook = async (bookToUpdate) => {
+    try {
+      let url = `${SERVER}/books/${bookToUpdate._id}`;
+      await axios.put(url, bookToUpdate);
+      this.getBooks();
+    } catch(error) {
+      console.log('error');
+    }
+  }
+
+  descriptionUpdated = (updatedDesc) => {
+    var currentBook = this.state.bookToUpdate;
+    currentBook.description = updatedDesc;
+    this.setState({ bookToUpdate: currentBook });
+    
+  }
+
+  titleUpdated = (updatedTitle) => {
+    var currentBook = this.state.bookToUpdate;
+    currentBook.title = updatedTitle;
+    this.setState({ bookToUpdate: currentBook });
+    
+  }
+
+ emailUpdated = (updatedEmail) => {
+    var currentBook = this.state.bookToUpdate;
+    currentBook.email = updatedEmail;
+    this.setState({ bookToUpdate: currentBook });
+    
+  }
+
+  statusUpdated = (updatedStatus) => {
+    var currentBook = this.state.bookToUpdate;
+    currentBook.status = updatedStatus;
+    this.setState({ bookToUpdate: currentBook });
+  }
  
 
   componentDidMount = async () => {
-    
+
     this.getBooks();
   }
   /* TODO: Make a GET request to your API to fetch books for the logged in user  */
   handleUpdate = (book) => {
-    this.props.updateBook(book);
-    this.props.handleShow();
+    console.log(book);
+    this.setState({ bookToUpdate: book });
+    this.setState({ show: true });
   };
+
+  saveChange = () => {
+    this.updateBook(this.state.bookToUpdate);
+    this.setState({ show: false });
+  }
+
 
   render() {
 
@@ -120,6 +148,22 @@ class BestBooks extends React.Component {
 
         <Newbook 
         postBook={this.postBook}/>
+        <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Update Book</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <UpdateBookForm bookToUpdate={this.state.bookToUpdate} descriptionUpdated={this.descriptionUpdated} titleUpdated={this.titleUpdated} emailUpdated={this.emailUpdated} statusUpdated={this.statusUpdated} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={this.saveChange}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
       </>
     )
   }
